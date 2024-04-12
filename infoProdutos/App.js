@@ -1,92 +1,103 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList } from 'react-native';
-
-
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import PagHigiene from '../infoProdutos/pages/Higiene';
 
 
 export default function App() {
+  
+  const [searchText, setSearchText] = useState('');
+  const [products] = useState([
+    { id: 1, name: 'Copo Dobrável', price: 'R$12,00', image: require('./assets/copoDobravel.png') },
+    { id: 2, name: 'Kit Canudo Metal', price: 'R$22,00', image: require('./assets/canudoMetal.png') },
+    { id: 3, name: 'Hashi Inox', price: 'R$15,00', image: require('./assets/hashiInox.png') },
+    { id: 4, name: 'Garrafa Inox', price: 'R$35,00', image: require('./assets/garrafaInox.png') },
+  ]);
+
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const handleSearch = () => {
+    console.log('Pesquisando por:', searchText);
+  };
+
+  const PageHigiene = () => {
+    navigation.navigate('PagHigiene');
+  };
+
   return (
-    <ScrollView>
-    <View style={styles.container}>
-
-      <Image style={styles.img}
-        source={require('./assets/planta.png')} />
-
-      <Text style={styles.frete}>Enviar para SP, 08673-270...</Text>
-
-      <Image style={styles.imgLocaliza}
-        source={require('./assets/localiza.png')} />
-
-      <Text style={styles.titulo}>HIGIENE</Text>
-
-      <Image style={styles.imgProduto}
-        source={require('./assets/escovaDente.png')} />
-
-      <Text style={styles.tituloProduto}>Escova de Dentes de Bambu</Text>
-
-      <Text style={styles.textoProduto}>R$25,00</Text>
-
-      <TouchableOpacity >
-        <Text style={styles.compreAgora}>COMPRE AGORA</Text>
-       </TouchableOpacity>
-
-      <Image style={styles.imgProduto}
-        source={require('./assets/escovaCabelo.png')} />
-
-      <Text style={styles.tituloProduto}>Escova de Cabelo de Bambu</Text>
-
-      <Text style={styles.textoProduto}>R$35,00</Text>
-
-      <TouchableOpacity>
-        <Text style={styles.compreAgora}>COMPRE AGORA</Text>
-      </TouchableOpacity>
-
-      
-      <Image style={styles.imgProduto}
-        source={require('./assets/escovaCorpo.png')} />
-
-      <Text style={styles.tituloProduto}>Escova de Banho de Bambu</Text>
-
-      <Text style={styles.textoProduto}>R$30,00</Text>
-
-      <TouchableOpacity>
-        <Text style={styles.compreAgora}>COMPRE AGORA</Text>
-      </TouchableOpacity>
-
-
-      <Image style={styles.imgProduto}
-        source={require('./assets/esponjaVegetal.png')} />
-
-      <Text style={styles.tituloProduto}>Bucha Vegetal</Text>
-
-      <Text style={styles.textoProduto}>R$30,00</Text>
-
-      <TouchableOpacity>
-        <Text style={styles.compreAgora}>COMPRE AGORA</Text>
-      </TouchableOpacity>
-
-      
-
-      <Image style={styles.imgProduto}
-        source={require('./assets/barraCabelo.png')} />
-
-      <Text style={styles.tituloProduto}>Shampoo e Condicionador em Barras</Text>
-
-      <Text style={styles.textoProduto}>R$15,00</Text>
-
-      <TouchableOpacity>
-        <Text style={styles.compreAgora}>COMPRE AGORA</Text>
-      </TouchableOpacity>
-
+    <>
       <StatusBar style="auto" />
-    </View>
-    </ScrollView>
+      <ScrollView>
+        <View style={styles.container}>
+          <Image style={styles.img} source={require('./assets/planta.png')} />
+          <TouchableOpacity style={styles.imgSeta} title="PagHigiene" onPress={(PageHigiene)}>
+          <Image source={require('./assets/seta.png')} />
+          </TouchableOpacity>
+          <View style={styles.Pesquisa}>
+          <Image style={styles.imgLupa} source={require('./assets/lupa.png')} />
+          <TextInput
+            style={styles.inputPesquisa}
+            placeholder="Pesquise seu item..."
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleSearch}
+          />
+          </View>
+          <Text style={styles.frete}>Enviar para SP, 08673-270...</Text>
+          <Image style={styles.imgLocaliza} source={require('./assets/localiza.png')} />
+          <Text style={styles.titulo}>UTENSÍLIOS</Text>
 
- 
+          {filteredProducts.length === 0 ? (
+            <Text style={styles.semItem}>Nenhum item encontrado.</Text>
+          ) : (
+            <FlatList
+              data={filteredProducts}
+              renderItem={({ item }) => (
+                <View style={styles.produtoContainer}>
+                  <Image style={styles.imgProduto} source={item.image} />
+                  <Text style={styles.tituloProduto}>{item.name}</Text>
+                  <Text style={styles.textoProduto}>{item.price}</Text>
+                  <TouchableOpacity style={styles.button}>
+                    <Text style={styles.compreAgora}>COMPRE AGORA</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              keyExtractor={item => item.id.toString()}
+            />
+          )}
+
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
+  Pesquisa: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffff',
+    borderWidth: 1,
+    borderColor: '#6BBD4E',
+    borderRadius: 10,
+    padding: 7.5,
+    marginTop: -75,
+    marginLeft: 30,
+    marginBottom: 25,
+    width: '80%',
+  },
+  inputPesquisa: {
+    width: 250,
+    marginLeft: 10,
+  },
+  semItem: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: '#666D4B',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -97,12 +108,17 @@ const styles = StyleSheet.create({
     marginTop: -27,
     marginLeft: -350,
   },
+  imgSeta: {
+    marginTop: -60,
+    marginBottom: 40,
+    marginLeft: -350,
+  },
   frete: {
     backgroundColor: '#6BBD4E',
     textAlign: 'center',
     display: 'flex',
     justifyContent: 'center',
-    height: 35,
+    padding: 9,
     width: '100%',
     color: 'white',
   },
@@ -114,7 +130,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     letterSpacing: 2,
-
+  },
+  produtoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
   imgProduto: {
     margin: 0,
@@ -130,14 +149,17 @@ const styles = StyleSheet.create({
   textoProduto: {
     textAlign: 'center',
   },
+  button: {
+    marginTop: 10,
+    marginBottom: 40,
+  },
   compreAgora: {
     paddingVertical: 5,
     paddingHorizontal: 30,
     textAlign: 'center',
     backgroundColor: '#6BBD4E',
     color: '#FFFFFF',
-    marginTop: 10,
-    marginBottom: 40,
     borderRadius: 1.76,
   },
+  
 });
