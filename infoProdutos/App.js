@@ -12,6 +12,7 @@ export default function App() {
     { id: 2, name: 'Kit Canudo Metal', price: 'R$22,00', image: require('./assets/canudoMetal.png') },
     { id: 3, name: 'Hashi Inox', price: 'R$15,00', image: require('./assets/hashiInox.png') },
     { id: 4, name: 'Garrafa Inox', price: 'R$35,00', image: require('./assets/garrafaInox.png') },
+    { id: 5, name: 'Garrafa Inox', price: 'R$35,00', image: require('./assets/garrafaInox.png') },
   ]);
 
   const filteredProducts = products.filter(product =>
