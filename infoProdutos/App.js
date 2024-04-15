@@ -99,6 +99,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666D4B',
   },
+  semItem: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: '#666D4B',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
