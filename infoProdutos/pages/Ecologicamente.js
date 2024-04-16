@@ -1,17 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, FlatList, TextInput } from 'react-native';
 import React, { useState } from 'react';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+// import PagHigiene from '../infoProdutos/pages/Higiene';
+
 
 export default function App() {
-
+  
   const [searchText, setSearchText] = useState('');
   const [products] = useState([
-    { id: 1, name: 'Copo Dobrável', price: 'R$12,00', image: require('./assets/copoDobravel.png') },
-    { id: 2, name: 'Kit Canudo Metal', price: 'R$22,00', image: require('./assets/canudoMetal.png') },
-    { id: 3, name: 'Hashi Inox', price: 'R$15,00', image: require('./assets/hashiInox.png') },
-    { id: 4, name: 'Garrafa Inox', price: 'R$35,00', image: require('./assets/garrafaInox.png') },
+    { id: 1, name: 'Trinca Vidro', price: 'R$30,00', image: require('./assets/trincaVidro.png') },
+    { id: 2, name: 'Sacola de Papel Kraft', price: 'R$6,00', image: require('./assets/sacolaKraft.png') },
+    { id: 3, name: 'EkoBag', price: 'R$35,00', image: require('./assets/ekobag.png') },
+    { id: 4, name: 'Lixeira Seletiva Doméstica', price: 'R$40,00', image: require('./assets/lixeiraSeletiva.png') },
+    { id: 5, name: 'Kit Filtro de Barro', price: 'R$95,00', image: require('./assets/filtroBarro.png') },
   ]);
 
   const filteredProducts = products.filter(product =>
@@ -22,7 +23,9 @@ export default function App() {
     console.log('Pesquisando por:', searchText);
   };
 
-  const navigation = useNavigation();
+  // const PageHigiene = () => {
+  //   navigation.navigate('PagHigiene');
+  // };
 
   return (
     <>
@@ -34,21 +37,21 @@ export default function App() {
           <Image source={require('./assets/seta.png')} />
           </TouchableOpacity> */}
           <TouchableOpacity style={styles.imgSeta}>
-            <Image source={require('./assets/seta.png')} />
+          <Image source={require('./assets/seta.png')} />
           </TouchableOpacity>
           <View style={styles.Pesquisa}>
-            <Image style={styles.imgLupa} source={require('./assets/lupa.png')} />
-            <TextInput
-              style={styles.inputPesquisa}
-              placeholder="Pesquise seu item..."
-              value={searchText}
-              onChangeText={setSearchText}
-              onSubmitEditing={handleSearch}
-            />
+          <Image style={styles.imgLupa} source={require('./assets/lupa.png')} />
+          <TextInput
+            style={styles.inputPesquisa}
+            placeholder="Pesquise seu item..."
+            value={searchText}
+            onChangeText={setSearchText}
+            onSubmitEditing={handleSearch}
+          />
           </View>
           <Text style={styles.frete}>Enviar para SP, 08673-270...</Text>
           <Image style={styles.imgLocaliza} source={require('./assets/localiza.png')} />
-          <Text style={styles.titulo}>UTENSÍLIOS</Text>
+          <Text style={styles.titulo}>ECOLOGICAMENTE FALANDO</Text>
 
           {filteredProducts.length === 0 ? (
             <Text style={styles.semItem}>Nenhum item encontrado.</Text>
@@ -60,36 +63,18 @@ export default function App() {
                   <Image style={styles.imgProduto} source={item.image} />
                   <Text style={styles.tituloProduto}>{item.name}</Text>
                   <Text style={styles.textoProduto}>{item.price}</Text>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => navigation.navigate('ProductDetails', { productId: item.id })}
-                  >
+                  <TouchableOpacity style={styles.button}>
                     <Text style={styles.compreAgora}>COMPRE AGORA</Text>
                   </TouchableOpacity>
                 </View>
               )}
               keyExtractor={item => item.id.toString()}
             />
-
           )}
 
         </View>
       </ScrollView>
     </>
-  );
-}
-
-function ProductDetails({ route }) {
-  const { productId } = route.params;
-  const product = products.find(p => p.id === productId);
-
-  return (
-    <View style={styles.container}>
-      <Image style={styles.imgDetalhe} source={product.image} />
-      <Text style={styles.tituloDetalhe}>{product.name}</Text>
-      <Text style={styles.descricaoDetalhe}>Descrição do Produto {product.id}</Text>
-      <Text style={styles.precoDetalhe}>{product.price}</Text>
-    </View>
   );
 }
 
@@ -186,5 +171,5 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     borderRadius: 1.76,
   },
-
+  
 });
