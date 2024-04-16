@@ -107,11 +107,13 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   semItem: {
+    display: 'flex',
     textAlign: 'center',
-    marginTop: 20,
     fontSize: 16,
     color: '#666D4B',
-  },
+    flex: 1,
+    justifyContent: 'center',
+  },  
   container: {
     flex: 1,
     backgroundColor: '#fff',
