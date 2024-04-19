@@ -15,12 +15,13 @@ export default function App() {
                     component={ProdutosUten}
                     options={({ route }) => ({ title: `Products ${route.params.productId}` })}
                 />
+
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
 
-function ProdutosUten({ route, navigation }) {
+function ProdutosUten({ route }) {
     const { productId } = route.params;
 
     const products = {
@@ -30,9 +31,8 @@ function ProdutosUten({ route, navigation }) {
         4: { name: 'Lixeira Seletiva Doméstica', price: 'R$40,00', image: require('./assets/lixeiraSeletiva.png'), description: 'Esta é a Lixeira Seletiva Doméstica.' },
         5: { name: 'Kit Filtro de Barro', price: 'R$95,00', image: require('./assets/filtroBarro.png'), description: 'Este é o Kit Filtro de Barro.' },
     };
-
     const renderComment = ({ item }) => (
-        <View style={styles.containerComent}>
+        <View style={styles.commentContainer}>
             <Image source={item.userImage} style={styles.userImage} />
             <View style={styles.commentContent}>
                 <Text style={styles.commentText}>{item.text}</Text>
@@ -46,38 +46,29 @@ function ProdutosUten({ route, navigation }) {
     );
 
     const product = products[productId];
-
-
-
-
-
-
-
-
     return (
-        <View style={styles.containerDetalhe}>
-
-            <View style={styles.topoDetalhe}>
-                <TouchableOpacity style={styles.SetaButton} onPress={() => navigation.goBack()}>
-                    <Image source={require('./assets/setaPreta.png')} style={styles.setaIcon} />
-                </TouchableOpacity>
-                <Image source={require('./assets/sacola.png')} style={styles.sacolaIcon} />
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.seta} onPress={() => navigation.goBack()}>
+                <Image source={require('./assets/seta.png')} style={styles.backIcon} />
+            </TouchableOpacity>
+            <View style={styles.cartContainer}>
+                <Image source={require('./assets/sacola.png')} style={[styles.cartIcon, { marginLeft: 'auto' }]} />
             </View>
-            <Image style={styles.imgDetalhe} source={product.image} />
-            <Text style={styles.tituloDetalhe}>{product.name}</Text>
-            <Text style={styles.textoDetalhe}>envio nacional</Text>
-            <Text style={styles.textoDetalhe}>{product.price}</Text>
-            <Text style={styles.descricaoDetalhe}>{product.description}</Text>
+            <Image style={styles.imgProduto} source={product.image} />
+            <Text style={styles.tituloProduto}>{product.name}</Text>
+            <Text style={styles.textoProduto}>envio nacional</Text>
+            <Text style={styles.textoProduto}>{product.price}</Text>
+            <Text style={styles.descricaoProduto}>{product.description}</Text>
 
-            <View style={styles.linha}></View>
+            <View style={styles.separator}></View>
 
-            <TouchableOpacity style={styles.ButtonCarrinho}>
-                <Text style={styles.AdicionarCarrinho}>Adicionar ao carrinho</Text>
+            <TouchableOpacity style={styles.addToCartButton}>
+                <Text style={styles.addToCartButtonText}>Adicionar ao carrinho</Text>
             </TouchableOpacity>
 
-            <View style={styles.linha}></View>
+            <View style={styles.separator}></View>
 
-            <Text style={styles.opinioesSobre}>Opiniões sobre:</Text>
+            <Text style={styles.opinioesTitle}>Opiniões sobre:</Text>
 
             <FlatList
                 // data={comments}
@@ -86,24 +77,17 @@ function ProdutosUten({ route, navigation }) {
             />
         </View>
     )
-
-
-
-
-
-
-
-
 }
+
 
 function AppScreen({ navigation }) {
     const [searchText, setSearchText] = useState('');
     const [products] = useState([
-        { id: 1, name: 'Trinca Vidro', price: 'R$30,00', image: require('./assets/trincaVidro.png'), description: 'Este é o Trinca Vidro.' },
-        { id: 2, name: 'Sacola de Papel Kraft', price: 'R$6,00', image: require('./assets/sacolaKraft.png'), description: 'Esta é a Sacola de Papel Kraft.' },
-        { id: 3, name: 'EkoBag', price: 'R$35,00', image: require('./assets/ekobag.png'), description: 'Esta é a EkoBag.' },
-        { id: 4, name: 'Lixeira Seletiva Doméstica', price: 'R$40,00', image: require('./assets/lixeiraSeletiva.png'), description: 'Esta é a Lixeira Seletiva Doméstica.' },
-        { id: 5, name: 'Kit Filtro de Barro', price: 'R$95,00', image: require('./assets/filtroBarro.png'), description: 'Este é o Kit Filtro de Barro.' },
+        { id: 1, name: 'Trinca Vidro', price: 'R$30,00', image: require('./assets/trincaVidro.png') },
+        { id: 2, name: 'Sacola de Papel Kraft', price: 'R$6,00', image: require('./assets/sacolaKraft.png') },
+        { id: 3, name: 'EkoBag', price: 'R$35,00', image: require('./assets/ekobag.png') },
+        { id: 4, name: 'Lixeira Seletiva Doméstica', price: 'R$40,00', image: require('./assets/lixeiraSeletiva.png') },
+        { id: 5, name: 'Kit Filtro de Barro', price: 'R$95,00', image: require('./assets/filtroBarro.png') },
     ]);
 
     const filteredProducts = products.filter(product =>
@@ -119,8 +103,8 @@ function AppScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.containerProdutos}>
-            <Image style={styles.imgPlanta} source={require('./assets/planta.png')} />
+        <View style={styles.container}>
+            <Image style={styles.img} source={require('./assets/planta.png')} />
 
             <TouchableOpacity style={styles.imgSeta}>
                 <Image source={require('./assets/seta.png')} />
@@ -155,7 +139,7 @@ function AppScreen({ navigation }) {
                                 <Text style={styles.tituloProduto}>{item.name}</Text>
                                 <Text style={styles.textoProduto}>{item.price}</Text>
                                 <TouchableOpacity
-                                    style={styles.ButtonCompreAqui}
+                                    style={styles.button}
                                     onPress={() => navigateToProdutosUten(item.id)}
                                 >
                                     <Text style={styles.compreAgora}>COMPRE AGORA</Text>
@@ -168,6 +152,7 @@ function AppScreen({ navigation }) {
             </View>
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({
@@ -197,7 +182,7 @@ const styles = StyleSheet.create({
         marginTop: 100,
         backgroundColor: 'red',
     },
-    containerProdutos: {
+    container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
@@ -222,7 +207,7 @@ const styles = StyleSheet.create({
         width: 450,
         color: 'white',
     },
-    imgPlanta: {
+    img: {
         width: '100%',
     },
     titulo: {
@@ -250,7 +235,7 @@ const styles = StyleSheet.create({
     textoProduto: {
         textAlign: 'center',
     },
-    ButtonCompreAqui: {
+    button: {
         marginTop: 10,
         marginBottom: 40,
     },
@@ -269,35 +254,5 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%',
     },
-
-
-    //PagDetalheProduto
-    containerDetalhe: {
-        marginTop: 50,
-    },
-    topoDetalhe: {
-        flexDirection: 'row',
-    },
-    setaIcon: {
-        marginHorizontal: 40,
-    },
-    sacolaIcon: {
-        marginTop: -5,
-        marginLeft: 250,
-    },
-    imgDetalhe: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 350,
-        height: 350,
-        marginLeft: 30,
-        marginTop: 50,
-    },
-    linha: {
-        marginLeft: 25,
-        backgroundColor: 'black',
-        height: 1,
-        width: '88%',
-    },
 });
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, TouchableOpacity, FlatList, TextInput, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import ProdutoDetalhes from './ProdutosUten'; 
+import ProdutoDetalhes from '../ProdutosUten'; 
 
 
 function ProdutosUten({ route }) {

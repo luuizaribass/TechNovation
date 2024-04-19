@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
-export default function ProdutosUten({ route }) {
+export default function ProdutosUten({ route, navigation }) {
   const { productId } = route.params;
   const navigation = useNavigation();
 
@@ -40,19 +40,21 @@ export default function ProdutosUten({ route }) {
 
 
   return (
-    <View style={styles.container}>
-       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-            <Image source={require('./assets/seta.png')} style={styles.backIcon} />
-        </TouchableOpacity>
-        <View style={styles.cartContainer}>
-            <Image source={require('./assets/sacola.png')} style={[styles.cartIcon, {marginLeft: 'auto'}]} />
-        </View>
-        <Image style={styles.imgProduto} source={product.image} />
+    <View style={styles.containerProduto}>
+       
+            <View style={styles.topoProduto}>
+                <TouchableOpacity style={styles.setaButton} onPress={() => navigation.goBack()}>
+                    <Image source={require('./assets/setaPreta.png')} style={styles.setaIcon} />
+                </TouchableOpacity>
+                <Image source={require('./assets/sacola.png')} style={styles.sacolaIcon} />
+            </View>
+      
+        <Image style={styles.imgProdutoSolo} source={product.image} />
         <Text style={styles.tituloProduto}>{product.name}</Text>
         <Text style={styles.textoProduto}>envio nacional</Text>
         <Text style={styles.textoProduto}>{product.price}</Text>
         <Text style={styles.descricaoProduto}>{product.description}</Text>
-        
+
         <View style={styles.separator}></View>
 
         <TouchableOpacity style={styles.addToCartButton}>
@@ -64,66 +66,28 @@ export default function ProdutosUten({ route }) {
         <Text style={styles.opinioesTitle}>Opiniões sobre:</Text>
 
         <FlatList
-            data={comments}
+            // data={comments}
             renderItem={renderComment}
             keyExtractor={(item) => item.id.toString()}
         />
     </View>
-);
+)
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
-  imgProduto: {
-    width: 330,
-    height: 250,
-    borderRadius: 17,
-  },
-  tituloProduto: {
-    marginTop: 20,
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  textoProduto: {
-    marginTop: 10,
-    fontSize: 18,
-  },
-  descricaoProduto: {
-    marginTop: 20,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 40,
-    left: 20,
-  },
- 
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: '#000',
-    marginVertical: 20,
+//PagDetalheProduto
+
+
+
+containerProduto: {
+  marginTop: 50,
 },
-ratingContainer: {
-    flexDirection: 'row',
-    marginTop: 10,
+topoProduto: {
+  alignItems: 'center',
 },
-starIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 5,
+setaButton,
+sacolaIcon:{
+  width: 20,
 },
-chatButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-},
-chatIcon: {
-    width: 50,
-    height: 50,
-},
+
 });
